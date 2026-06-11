@@ -1,0 +1,59 @@
+# Version control
+.git
+.gitignore
+
+# Dependencies (will be installed in container)
+node_modules
+npm-debug.log*
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE and editor files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Documentation and tests (not needed in production)
+docs/
+tests/
+*.md
+README*
+
+# Log files
+logs/
+*.log
+
+# Temporary files
+temp/
+tmp/
+*.tmp
+
+# Large files that aren't needed
+*.bin
+*.iso
+*.tar
+*.zip
+
+# Docker files (except the one being used)
+Dockerfile*
+!Dockerfile.production
+docker-compose*.yml
+
+# Build artifacts
+dist/
+build/
+coverage/

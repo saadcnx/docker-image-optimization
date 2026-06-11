@@ -1,0 +1,35 @@
+# syntax=docker/dockerfile:1.4
+# Use BuildKit for advanced features
+
+# Build stage
+FROM node:18-alpine AS builder
+
+WORKDIR /app
+
+# Copy package files first for better layer caching
+COPY package*.json ./
+
+# Install dependencies with cache mount for faster builds
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci --only=production && \
+    npm cache clean --force
+
+# Production stage - distroless for maximum security and minimal size
+FROM gcr.io/distroless/nodejs18-debian11 AS production
+
+WORKDIR /app
+
+# Copy production dependencies
+COPY --from=builder /app/node_modules ./node_modules
+
+# Copy application code
+COPY server.js ./
+
+# Expose port
+EXPOSE 3000
+
+# Use non-root user (distroless default)
+USER nonroot:nonroot
+
+# Start application
+CMD ["server.js"]

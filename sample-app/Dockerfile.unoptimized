@@ -1,0 +1,26 @@
+FROM node:18
+
+# Set working directory
+WORKDIR /app
+
+# Copy all files
+COPY . .
+
+# Install all dependencies (including dev dependencies)
+RUN npm install
+
+# Install additional tools that might not be needed in production
+RUN apt-get update && apt-get install -y \
+    curl \
+    wget \
+    vim \
+    git \
+    build-essential \
+    python3 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Expose port
+EXPOSE 3000
+
+# Start the application
+CMD ["npm", "start"]
